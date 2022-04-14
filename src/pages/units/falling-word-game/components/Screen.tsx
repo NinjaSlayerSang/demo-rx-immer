@@ -7,13 +7,11 @@ import {
 } from 'react';
 import { distinctUntilChanged, map } from 'rxjs';
 import { random } from 'lodash';
-import { IItem } from '../entity';
-import { useGame } from '../hooks';
+
+import { IItem, items as itemsStore, resize, point, add } from '../game';
 import Item from './Item';
 
 const Screen: FunctionComponent = () => {
-  const { items: itemsStore, resize, point, add } = useGame();
-
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [items, setItems] = useState<Record<string, IItem>>({});
@@ -40,7 +38,7 @@ const Screen: FunctionComponent = () => {
     return () => {
       resizeObserver.disconnect();
     };
-  }, [resize]);
+  }, []);
 
   useLayoutEffect(() => {
     const listener = (ev: KeyboardEvent) => {
@@ -55,7 +53,7 @@ const Screen: FunctionComponent = () => {
     return () => {
       window.removeEventListener('keypress', listener);
     };
-  }, [add]);
+  }, []);
 
   useEffect(() => {
     const subscription = itemsStore
@@ -71,7 +69,7 @@ const Screen: FunctionComponent = () => {
     return () => {
       subscription.unsubscribe();
     };
-  }, [itemsStore]);
+  }, []);
 
   return (
     <div

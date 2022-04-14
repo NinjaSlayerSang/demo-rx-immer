@@ -1,5 +1,6 @@
-import { FunctionComponent, useContext } from 'react';
-import { GameContext, IItem } from '../entity';
+import { FunctionComponent } from 'react';
+
+import game, { IItem } from '../game';
 
 interface ItemProps {
   i: string;
@@ -8,7 +9,6 @@ interface ItemProps {
 const Item: FunctionComponent<ItemProps> = (props) => {
   const { i } = props;
 
-  const game = useContext(GameContext);
   const item = game.useBind<IItem>(['items', i]);
 
   return (

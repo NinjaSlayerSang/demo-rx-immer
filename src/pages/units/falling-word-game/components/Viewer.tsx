@@ -1,13 +1,12 @@
 import { CSSProperties, FunctionComponent } from 'react';
-import { injectInstanceWithContext, RxImmerReact } from 'rx-immer-react';
 import { Typography } from 'antd';
-import { GameContext, IGame } from '../entity';
+
+import game from '../game';
 
 const Viewer: FunctionComponent<{
-  game: RxImmerReact<IGame>;
   style?: CSSProperties;
 }> = (props) => {
-  const { game, style } = props;
+  const { style } = props;
 
   const state = game.useBind();
 
@@ -18,4 +17,4 @@ const Viewer: FunctionComponent<{
   );
 };
 
-export default injectInstanceWithContext(GameContext, 'game')(Viewer);
+export default Viewer;
