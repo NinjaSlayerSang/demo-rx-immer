@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 
-import game, { IItem } from '../game';
+import { IItem, items } from '../game';
 
 interface ItemProps {
   i: string;
@@ -9,7 +9,7 @@ interface ItemProps {
 const Item: FunctionComponent<ItemProps> = (props) => {
   const { i } = props;
 
-  const item = game.useBind<IItem>(['items', i]);
+  const item = items.useBind<IItem>(i);
 
   return (
     <span

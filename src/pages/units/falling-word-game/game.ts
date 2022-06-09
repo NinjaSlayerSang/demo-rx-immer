@@ -33,6 +33,7 @@ export interface IGame {
   status: 'running' | 'stopped';
   clock?: number;
   items: Record<string, IItem>;
+  itemSet: Set<string>;
   pointer?: {
     timeStamp: number;
     x: number;
@@ -46,6 +47,7 @@ export interface IGame {
 const INIT_GAME: IGame = {
   status: 'stopped',
   items: {},
+  itemSet: new Set<string>(),
   env: {
     container: { width: 0, height: 0 },
     params: { i: 10, a: 500, cor: 0.6, cof: 0.9 },
@@ -58,6 +60,7 @@ const game = create<IGame>(INIT_GAME);
 export default game;
 
 export const items = game.sub<IGame['items']>('items');
+export const itemSet = game.sub<IGame['itemSet']>('itemSet');
 export const env = game.sub<IEnv>('env');
 export const container = env.sub<IEnv['container']>('container');
 export const params = env.sub<IEnv['params']>('params');
@@ -98,10 +101,13 @@ export const stop = () => {
 
 // 清空
 export const clear = () => {
-  items.commit((items) => {
-    Object.keys(items).forEach((key) => {
-      delete items[key];
+  items.commit((draft) => {
+    Object.keys(draft).forEach((key) => {
+      delete draft[key];
     });
+  });
+  itemSet.commit((draft) => {
+    draft.clear();
   });
 };
 
@@ -114,7 +120,9 @@ export const add = (item: { word: string; color: string }) => {
       const height = size;
       const { x, y, vx, vy } = g.pointer;
 
-      g.items[uniqueId('item-')] = {
+      const key = uniqueId('item-');
+
+      g.items[key] = {
         ...item,
         x: x - width / 2,
         y: y - height / 2,
@@ -123,6 +131,7 @@ export const add = (item: { word: string; color: string }) => {
         width,
         height,
       };
+      g.itemSet.add(key);
     }
   });
 };
@@ -185,6 +194,7 @@ const run = (i: number) => {
       .filter(([, item]) => Math.sqrt(item.vx ** 2 + item.vy ** 2) < tov)
       .forEach(([key]) => {
         delete g.items[key];
+        g.itemSet.delete(key);
       });
   });
 };

@@ -1,20 +1,13 @@
-import {
-  FunctionComponent,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
-import { distinctUntilChanged, map } from 'rxjs';
+import { FunctionComponent, useLayoutEffect, useRef } from 'react';
 import { random } from 'lodash';
 
-import { IItem, items as itemsStore, resize, point, add } from '../game';
+import { resize, point, add, itemSet } from '../game';
 import Item from './Item';
 
 const Screen: FunctionComponent = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [items, setItems] = useState<Record<string, IItem>>({});
+  const items = itemSet.useBind<Set<string>>();
 
   useLayoutEffect(() => {
     const { current: container } = containerRef;
@@ -55,22 +48,6 @@ const Screen: FunctionComponent = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const subscription = itemsStore
-      .observe()
-      .pipe(
-        map((items) => ({ keys: Object.keys(items).sort().join(), items })),
-        distinctUntilChanged((p, c) => p.keys === c.keys),
-      )
-      .subscribe(({ items }) => {
-        setItems(items);
-      });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
-
   return (
     <div
       ref={containerRef}
@@ -95,7 +72,7 @@ const Screen: FunctionComponent = () => {
         point();
       }}
     >
-      {Object.entries(items).map(([key]) => (
+      {Array.from(items.keys()).map((key) => (
         <Item key={key} i={key} />
       ))}
     </div>
