@@ -1,10 +1,6 @@
 import { Path } from 'rx-immer';
 import { FunctionComponent, useState } from 'react';
-import {
-  injectDataWithInstance,
-  RxImmerReact,
-  useRxImmer,
-} from 'rx-immer-react';
+import { RxImmerReact, useRxImmer } from 'rx-immer-react';
 import { Card, Input, Space, Tag, Typography } from 'antd';
 
 const Edit: FunctionComponent<{
@@ -27,11 +23,10 @@ const Edit: FunctionComponent<{
 
 const View: FunctionComponent<{
   store: RxImmerReact;
-  mapping: { state: any };
   space?: string | number;
 }> = (props) => {
-  const { mapping, space } = props;
-  const { state = {} } = mapping;
+  const { store, space } = props;
+  const state = store.useBind();
 
   return (
     <Typography.Paragraph>
@@ -39,13 +34,6 @@ const View: FunctionComponent<{
     </Typography.Paragraph>
   );
 };
-
-const ComposedView = injectDataWithInstance(
-  { state: [] },
-  {},
-  'mapping',
-  'store',
-)(View);
 
 const Simple: FunctionComponent = () => {
   const store = useRxImmer<any>({ a: [{ b: { c: 'test' } }, 1, 'abc', {}] });
@@ -75,7 +63,7 @@ const Simple: FunctionComponent = () => {
           编辑:
           <Edit store={store} path={path} />
         </Space>
-        <ComposedView store={store} space={4} />
+        <View store={store} space={4} />
       </Space>
     </Card>
   );

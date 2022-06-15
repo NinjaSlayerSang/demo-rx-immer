@@ -2,7 +2,6 @@ import { FunctionComponent, useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import Simple from './units/simple';
 import AsyncTest from './units/async';
-import ClassicComponent from './units/classic-component';
 import Playground from './playground';
 import FallingWordGame from './units/falling-word-game';
 import Query from './units/query';
@@ -20,7 +19,6 @@ const Index: FunctionComponent = () => {
         tabList={[
           { key: 'simple', tab: '简单演示' },
           { key: 'async', tab: '异步更新' },
-          { key: 'classic', tab: 'Class组件' },
           { key: 'falling-word-game', tab: '抛字游戏' },
           { key: 'query', tab: '测试查询' },
           { key: 'playground', tab: '综合演示' },
@@ -34,8 +32,6 @@ const Index: FunctionComponent = () => {
               return <Simple />;
             case 'async':
               return <AsyncTest />;
-            case 'classic':
-              return <ClassicComponent />;
             case 'playground':
               return <Playground />;
             case 'falling-word-game':
