@@ -4,7 +4,13 @@ import { LoadingOutlined, VideoCameraOutlined } from '@ant-design/icons';
 
 import game, { IGame, params, itemStyle, start, stop, clear } from './game';
 import Viewer from './components/viewer';
-import Screen from './components/Screen';
+import Screen from './components/screen';
+
+const omitNil = (f: (v: number) => void) => (value?: number | null) => {
+  if (typeof value === 'number' && !Number.isNaN(value)) {
+    f(value);
+  }
+};
 
 const FallingWordGame: FunctionComponent = () => {
   const status = game.useBind<IGame['status']>('status');
@@ -63,20 +69,20 @@ const FallingWordGame: FunctionComponent = () => {
                 帧间隔:
                 <InputNumber
                   value={i}
-                  onChange={setI}
+                  onChange={omitNil(setI)}
                   min={10}
                   disabled={running}
                 />
               </Space>
               <Space>
                 加速度:
-                <InputNumber value={a} onChange={setA} />
+                <InputNumber value={a} onChange={omitNil(setA)} />
               </Space>
               <Space>
                 反弹系数:
                 <InputNumber
                   value={cor}
-                  onChange={setCor}
+                  onChange={omitNil(setCor)}
                   min={0}
                   max={1}
                   step={0.01}
@@ -86,7 +92,7 @@ const FallingWordGame: FunctionComponent = () => {
                 摩擦系数:
                 <InputNumber
                   value={cof}
-                  onChange={setCof}
+                  onChange={omitNil(setCof)}
                   min={0}
                   max={1}
                   step={0.01}
@@ -96,7 +102,7 @@ const FallingWordGame: FunctionComponent = () => {
                 字大小:
                 <InputNumber
                   value={size}
-                  onChange={setSize}
+                  onChange={omitNil(setSize)}
                   min={16}
                   max={128}
                 />

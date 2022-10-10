@@ -1,5 +1,6 @@
 import { FunctionComponent, useState } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
+import 'antd/dist/antd.less';
 import Simple from './units/simple';
 import AsyncTest from './units/async';
 import Playground from './playground';

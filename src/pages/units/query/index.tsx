@@ -13,8 +13,8 @@ import {
   Table,
 } from 'antd';
 
-import JSONTextArea from './JSONTextArea';
-import QueryResult from './QueryResult';
+import JSONTextArea from './json-text-area';
+import QueryResult from './query-result';
 import { uniqueId } from 'lodash';
 
 const DefaultJSON = {
@@ -202,7 +202,7 @@ export const Query: FunctionComponent = () => {
       </Row>
       <Modal
         title="添加查询"
-        visible={visible}
+        open={visible}
         okButtonProps={{ disabled: !inputQuery }}
         onOk={() => {
           addQuery();

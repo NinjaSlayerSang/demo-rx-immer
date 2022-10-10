@@ -47,9 +47,10 @@ const ReplaySlider: FunctionComponent<ReplaySliderProps & PropsWithStore> = (
       step={step}
       value={timeStamp}
       onChange={setTimeStamp}
-      marks={Object.fromEntries(keyframe?.map((frame) => [frame, false]) ?? [])}
-      tooltipVisible={false}
-      tipFormatter={null}
+      marks={Object.fromEntries(keyframe?.map((frame) => [frame, true]) ?? [])}
+      tooltip={{
+        open: false,
+      }}
     />
   );
 };

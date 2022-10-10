@@ -87,84 +87,88 @@ const NodeTitle: FunctionComponent<NodeTitleProps> = (props) => {
         setHover(false);
       }}
     >
-      {edit ? (
-        <Input
-          style={{ margin: '2px 0' }}
-          size="small"
-          value={`${node.title}`}
-          onChange={(event) => {
-            store.commit<TreeNode[]>(
-              (root) => {
-                const target = findNodeByKey(root, node.key);
-                if (target) {
-                  target.title = event.target.value;
-                }
-              },
-              [...treePathInStore, 'root'],
-            );
-          }}
-        />
-      ) : (
-        node.title
-      )}
-      {(edit || selected || (hover && !dragging)) && (
-        <Space size="small">
-          <a
-            onClick={(event) => {
-              event.stopPropagation();
-              setEdit((e) => !e);
-            }}
-          >
-            {edit ? <CheckOutlined /> : <EditOutlined />}
-          </a>
-          <a
-            onClick={(event) => {
-              event.stopPropagation();
-              store.commit<TreeNode[]>(
-                (root) => {
-                  const index = root.findIndex((item) => item.key === node.key);
-                  if (index > -1) {
-                    root.splice(index, 1);
-                  } else {
-                    const father = findFatherByKey(root, node.key);
-                    if (father?.children) {
-                      father.children.splice(
-                        father.children.findIndex(
-                          (child) => child.key === node.key,
-                        ),
-                        1,
-                      );
-                    }
-                  }
-                },
-                [...treePathInStore, 'root'],
-              );
-            }}
-          >
-            <DeleteOutlined />
-          </a>
-          <a
-            onClick={(event) => {
-              event.stopPropagation();
+      <>
+        {edit ? (
+          <Input
+            style={{ margin: '2px 0' }}
+            size="small"
+            value={`${node.title}`}
+            onChange={(event) => {
               store.commit<TreeNode[]>(
                 (root) => {
                   const target = findNodeByKey(root, node.key);
                   if (target) {
-                    if (target.children) {
-                      target.children.push(newNode());
-                    } else {
-                      target.children = [newNode()];
-                    }
+                    target.title = event.target.value;
                   }
                 },
                 [...treePathInStore, 'root'],
               );
             }}
-          >
-            <PlusOutlined />
-          </a>
-        </Space>
-      )}
+          />
+        ) : (
+          node.title
+        )}
+        {(edit || selected || (hover && !dragging)) && (
+          <Space size="small">
+            <a
+              onClick={(event) => {
+                event.stopPropagation();
+                setEdit((e) => !e);
+              }}
+            >
+              {edit ? <CheckOutlined /> : <EditOutlined />}
+            </a>
+            <a
+              onClick={(event) => {
+                event.stopPropagation();
+                store.commit<TreeNode[]>(
+                  (root) => {
+                    const index = root.findIndex(
+                      (item) => item.key === node.key,
+                    );
+                    if (index > -1) {
+                      root.splice(index, 1);
+                    } else {
+                      const father = findFatherByKey(root, node.key);
+                      if (father?.children) {
+                        father.children.splice(
+                          father.children.findIndex(
+                            (child) => child.key === node.key,
+                          ),
+                          1,
+                        );
+                      }
+                    }
+                  },
+                  [...treePathInStore, 'root'],
+                );
+              }}
+            >
+              <DeleteOutlined />
+            </a>
+            <a
+              onClick={(event) => {
+                event.stopPropagation();
+                store.commit<TreeNode[]>(
+                  (root) => {
+                    const target = findNodeByKey(root, node.key);
+                    if (target) {
+                      if (target.children) {
+                        target.children.push(newNode());
+                      } else {
+                        target.children = [newNode()];
+                      }
+                    }
+                  },
+                  [...treePathInStore, 'root'],
+                );
+              }}
+            >
+              <PlusOutlined />
+            </a>
+          </Space>
+        )}
+      </>
     </Space>
   );
 };

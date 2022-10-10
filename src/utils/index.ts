@@ -1,2 +1,2 @@
 export * from './compose';
-export * from './useHandle';
+export * from './use-handle';

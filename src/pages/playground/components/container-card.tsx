@@ -1,4 +1,9 @@
-import { FunctionComponent, MutableRefObject, useState } from 'react';
+import {
+  FunctionComponent,
+  MutableRefObject,
+  ReactNode,
+  useState,
+} from 'react';
 import { Diachrony } from 'rx-immer';
 import { Button, Card, Input, InputNumber, Space } from 'antd';
 import { LoadingOutlined, VideoCameraOutlined } from '@ant-design/icons';
@@ -6,6 +11,7 @@ import type { PropsWithStore, ReplayActions, Store } from '..';
 
 interface ContainerCardProps {
   replayRef: MutableRefObject<ReplayActions | undefined>;
+  children?: ReactNode;
 }
 
 const ContainerCard: FunctionComponent<ContainerCardProps & PropsWithStore> = (
@@ -67,7 +73,7 @@ const ContainerCard: FunctionComponent<ContainerCardProps & PropsWithStore> = (
             value={count}
             onChange={(value) => {
               store.commit((draft) => {
-                draft.count = value;
+                draft.count = value ?? 0;
               });
             }}
           />

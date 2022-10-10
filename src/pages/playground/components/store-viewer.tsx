@@ -68,7 +68,7 @@ const StoreViewer: FunctionComponent<PropsWithStore> = (props) => {
         title="监听列表"
         placement="left"
         width="30vw"
-        visible={visible}
+        open={visible}
         onClose={() => {
           setVisible(false);
         }}

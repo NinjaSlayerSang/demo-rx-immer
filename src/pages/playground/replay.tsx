@@ -7,8 +7,8 @@ import {
 } from 'react';
 import { Modal } from 'antd';
 import { useRxImmer } from 'rx-immer-react';
-import ReplaySlider from './components/ReplaySlider';
-import Editor from './components/Editor';
+import ReplaySlider from './components/replay-slider';
+import Editor from './components/editor';
 import { INITIAL_STORE } from './const';
 import { ReplayActions, Store } from '.';
 
@@ -39,9 +39,9 @@ const Replay: FunctionComponent<ReplayProps> = (props) => {
     <Modal
       title={`重播: ${new Date(timeStamp).toLocaleTimeString(undefined, {
         hour12: false,
-      })}.${timeStamp.toString().substr(-3, 3)}`}
+      })}`}
       width="90vw"
-      visible={visible}
+      open={visible}
       footer={<ReplaySlider store={store} wait={10} onChange={setTimeStamp} />}
       onCancel={() => {
         setVisible(false);

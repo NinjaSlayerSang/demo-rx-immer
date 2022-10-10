@@ -1,9 +1,9 @@
 import { FunctionComponent } from 'react';
 import { Col, Row, Tabs } from 'antd';
-import FormEditor from './FormEditor';
-import StoreViewer from './StoreViewer';
-import TableEditor from './TableEditor';
-import TreeEditor from './TreeEditor';
+import FormEditor from './form-editor';
+import StoreViewer from './store-viewer';
+import TableEditor from './table-editor';
+import TreeEditor from './tree-editor';
 import { PropsWithStore } from '..';
 
 const Editor: FunctionComponent<PropsWithStore> = (props) => {

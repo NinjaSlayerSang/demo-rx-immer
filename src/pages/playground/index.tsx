@@ -19,10 +19,10 @@ import {
 import { skip } from 'rxjs';
 import { FieldData } from 'rc-field-form/lib/interface';
 
-import ContainerCard from './components/ContainerCard';
-import { ListItem } from './components/TableEditor';
-import { TreeData } from './components/TreeEditor';
-import Editor from './components/Editor';
+import ContainerCard from './components/container-card';
+import { ListItem } from './components/table-editor';
+import { TreeData } from './components/tree-editor';
+import Editor from './components/editor';
 import Replay from './replay';
 import { INITIAL_STORE } from './const';
 
