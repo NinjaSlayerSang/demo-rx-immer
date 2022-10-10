@@ -12,7 +12,18 @@ const Viewer: FunctionComponent<{
 
   return (
     <Typography.Paragraph>
-      <pre style={style}>{JSON.stringify(state, undefined, 4)}</pre>
+      <pre style={style}>
+        {JSON.stringify(
+          state,
+          (key, value) => {
+            if (value instanceof Set) {
+              return [...value.keys()];
+            }
+            return value;
+          },
+          4,
+        )}
+      </pre>
     </Typography.Paragraph>
   );
 };

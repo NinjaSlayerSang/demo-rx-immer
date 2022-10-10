@@ -2,7 +2,7 @@ import { FunctionComponent, useLayoutEffect, useRef } from 'react';
 import { random } from 'lodash';
 
 import { resize, point, add, itemSet } from '../game';
-import Item from './Item';
+import Item from './item';
 
 const Screen: FunctionComponent = () => {
   const containerRef = useRef<HTMLDivElement>(null);
