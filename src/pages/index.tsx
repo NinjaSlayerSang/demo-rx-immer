@@ -1,4 +1,5 @@
 import { FunctionComponent, useState } from 'react';
+import { Col, Row } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import 'antd/dist/antd.less';
 import Simple from './units/simple';
@@ -13,11 +14,10 @@ const Index: FunctionComponent = () => {
   return (
     <PageContainer
       tabList={[
-        { key: 'simple', tab: '简单演示' },
-        { key: 'async', tab: '异步更新' },
-        { key: 'falling-word-game', tab: '抛字游戏' },
-        { key: 'query', tab: '测试查询' },
+        { key: 'simple', tab: '基础演示' },
         { key: 'playground', tab: '综合演示' },
+        { key: 'query', tab: '查询演示' },
+        { key: 'falling-word-game', tab: '抛字游戏' },
       ]}
       tabActiveKey={tabActiveKey}
       onTabChange={setTabActiveKey}
@@ -25,9 +25,16 @@ const Index: FunctionComponent = () => {
       {(() => {
         switch (tabActiveKey) {
           case 'simple':
-            return <Simple />;
-          case 'async':
-            return <AsyncTest />;
+            return (
+              <Row gutter={24}>
+                <Col>
+                  <Simple />
+                </Col>
+                <Col>
+                  <AsyncTest />
+                </Col>
+              </Row>
+            );
           case 'playground':
             return <Playground />;
           case 'falling-word-game':

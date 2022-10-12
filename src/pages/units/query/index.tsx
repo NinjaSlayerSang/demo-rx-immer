@@ -122,10 +122,22 @@ export const Query: FunctionComponent = () => {
     }
   };
 
+  const keyPathColumnTitle = (
+    <>
+      查询
+      <Switch
+        style={{ margin: '0 0 4px 4px' }}
+        size="small"
+        checked={editable}
+        onChange={setEditable}
+      />
+    </>
+  );
+
   return (
-    <Card>
-      <Row gutter={[16, 0]}>
-        <Col span={8}>
+    <Row gutter={[16, 0]}>
+      <Col span={8}>
+        <Card title="数据源">
           <JSONTextArea
             style={{ height: '60vh' }}
             defaultValue={DefaultJSON}
@@ -135,14 +147,39 @@ export const Query: FunctionComponent = () => {
               });
             }}
           />
-        </Col>
-        <Col span={16}>
-          <Space style={{ marginBottom: 16 }}>
-            <Button onClick={openModal} type="primary">
-              新增
-            </Button>
-            <Switch checked={editable} onChange={setEditable} />
-          </Space>
+        </Card>
+      </Col>
+      <Col span={16}>
+        <Card
+          title="JSONPath查询结果"
+          extra={
+            <>
+              <Button onClick={openModal} type="primary" size="small">
+                新增
+              </Button>
+              <Modal
+                title="添加查询"
+                open={visible}
+                okButtonProps={{ disabled: !inputQuery }}
+                onOk={() => {
+                  addQuery();
+                  closeModal();
+                }}
+                onCancel={closeModal}
+              >
+                <Space>
+                  查询表达式:
+                  <Input
+                    value={inputQuery}
+                    onChange={(event) => {
+                      setInputQuery(event.target.value);
+                    }}
+                  />
+                </Space>
+              </Modal>
+            </>
+          }
+        >
           <Table
             rowKey="key"
             dataSource={dataSource}
@@ -150,7 +187,7 @@ export const Query: FunctionComponent = () => {
               editable
                 ? {
                     dataIndex: 'key',
-                    title: '查询',
+                    title: keyPathColumnTitle,
                     render: (key, record) => (
                       <Input
                         value={record.query}
@@ -167,7 +204,7 @@ export const Query: FunctionComponent = () => {
                   }
                 : {
                     dataIndex: 'query',
-                    title: '查询',
+                    title: keyPathColumnTitle,
                   },
               {
                 dataIndex: 'key',
@@ -196,31 +233,15 @@ export const Query: FunctionComponent = () => {
                 ),
               },
             ]}
-            pagination={{ defaultPageSize: 5 }}
-          />
-        </Col>
-      </Row>
-      <Modal
-        title="添加查询"
-        open={visible}
-        okButtonProps={{ disabled: !inputQuery }}
-        onOk={() => {
-          addQuery();
-          closeModal();
-        }}
-        onCancel={closeModal}
-      >
-        <Space>
-          查询表达式:
-          <Input
-            value={inputQuery}
-            onChange={(event) => {
-              setInputQuery(event.target.value);
+            pagination={{
+              defaultPageSize: 5,
+              showSizeChanger: true,
+              showQuickJumper: true,
             }}
           />
-        </Space>
-      </Modal>
-    </Card>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 

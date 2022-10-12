@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from 'react';
-import { Button, Card, Col, InputNumber, Row, Space } from 'antd';
+import { Button, Card, Col, Drawer, InputNumber, Row, Space } from 'antd';
 import { LoadingOutlined, VideoCameraOutlined } from '@ant-design/icons';
 
 import game, { IGame, params, itemStyle, start, stop, clear } from './game';
@@ -23,6 +23,54 @@ const FallingWordGame: FunctionComponent = () => {
   const [size, setSize] = itemStyle.useTwoWayBind<number>('size');
 
   const [visible, setVisible] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+
+  const settings = (
+    <Space size="large" direction="vertical">
+      <Space>
+        帧间隔:
+        <InputNumber
+          value={i}
+          onChange={omitNil(setI)}
+          min={10}
+          disabled={running}
+        />
+      </Space>
+      <Space>
+        加速度:
+        <InputNumber value={a} onChange={omitNil(setA)} />
+      </Space>
+      <Space>
+        反弹系数:
+        <InputNumber
+          value={cor}
+          onChange={omitNil(setCor)}
+          min={0}
+          max={1}
+          step={0.01}
+        />
+      </Space>
+      <Space>
+        摩擦系数:
+        <InputNumber
+          value={cof}
+          onChange={omitNil(setCof)}
+          min={0}
+          max={1}
+          step={0.01}
+        />
+      </Space>
+      <Space>
+        字大小:
+        <InputNumber
+          value={size}
+          onChange={omitNil(setSize)}
+          min={16}
+          max={128}
+        />
+      </Space>
+    </Space>
+  );
 
   return (
     <Card
@@ -57,68 +105,42 @@ const FallingWordGame: FunctionComponent = () => {
                 type="primary"
                 size="small"
                 onClick={() => {
-                  setVisible((v) => !v);
+                  setVisible(true);
                 }}
               >
-                {visible ? '隐藏数据' : '展示数据'}
+                状态面板
               </Button>
             }
           >
-            <Space size="large" wrap>
-              <Space>
-                帧间隔:
-                <InputNumber
-                  value={i}
-                  onChange={omitNil(setI)}
-                  min={10}
-                  disabled={running}
-                />
-              </Space>
-              <Space>
-                加速度:
-                <InputNumber value={a} onChange={omitNil(setA)} />
-              </Space>
-              <Space>
-                反弹系数:
-                <InputNumber
-                  value={cor}
-                  onChange={omitNil(setCor)}
-                  min={0}
-                  max={1}
-                  step={0.01}
-                />
-              </Space>
-              <Space>
-                摩擦系数:
-                <InputNumber
-                  value={cof}
-                  onChange={omitNil(setCof)}
-                  min={0}
-                  max={1}
-                  step={0.01}
-                />
-              </Space>
-              <Space>
-                字大小:
-                <InputNumber
-                  value={size}
-                  onChange={omitNil(setSize)}
-                  min={16}
-                  max={128}
-                />
-              </Space>
-            </Space>
-            {visible && (
-              <Viewer
-                style={{ height: 'calc(70vh - 210px)', overflowY: 'scroll' }}
-              />
-            )}
+            {settings}
           </Card>
         </Col>
         <Col span={18}>
           <Screen />
         </Col>
       </Row>
+      <Drawer
+        title="状态数据"
+        extra={
+          <Button
+            onClick={() => {
+              setShowSettings((s) => !s);
+            }}
+          >
+            {showSettings ? '收起设置' : '显示设置'}
+          </Button>
+        }
+        placement="left"
+        width="26vw"
+        open={visible}
+        onClose={() => {
+          setVisible(false);
+        }}
+        mask={false}
+      >
+        {showSettings && <Card size="small">{settings}</Card>}
+        <Viewer />
+      </Drawer>
     </Card>
   );
 };

@@ -1,6 +1,7 @@
 import { FunctionComponent, useState } from 'react';
 import { Button, Card, InputNumber, Space } from 'antd';
 import { useRxImmer } from 'rx-immer-react';
+import { PlusOutlined } from '@ant-design/icons';
 
 const wait = async (ms: number) =>
   new Promise((resolve) => {
@@ -26,12 +27,15 @@ export const AsyncTest: FunctionComponent = () => {
   };
 
   return (
-    <Card>
+    <Card title="异步更新">
       <Space>
         <InputNumber value={value} onChange={setValue} />
-        <Button type="primary" loading={loading} onClick={inc}>
-          +
-        </Button>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          loading={loading}
+          onClick={inc}
+        />
       </Space>
     </Card>
   );

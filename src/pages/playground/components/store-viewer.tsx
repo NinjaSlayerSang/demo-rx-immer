@@ -60,7 +60,7 @@ const StoreViewer: FunctionComponent<PropsWithStore> = (props) => {
       }
     >
       <Typography.Paragraph>
-        <pre style={{ height: '65vh', overflowY: 'scroll' }}>
+        <pre style={{ height: 640, overflowY: 'scroll' }}>
           {JSON.stringify(value, undefined, 4)}
         </pre>
       </Typography.Paragraph>

@@ -55,7 +55,7 @@ const INIT_GAME: IGame = {
   },
 };
 
-const game = create<IGame>(INIT_GAME);
+const game = create(INIT_GAME);
 
 export default game;
 
