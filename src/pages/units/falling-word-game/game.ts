@@ -2,17 +2,6 @@ import { create } from 'rx-immer-react';
 import { distinctUntilChanged, filter, map, pairwise } from 'rxjs';
 import { uniqueId } from 'lodash';
 
-export interface IItem {
-  word: string;
-  color: string;
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  width: number;
-  height: number;
-}
-
 export interface IEnv {
   container: {
     width: number;
@@ -29,11 +18,23 @@ export interface IEnv {
   };
 }
 
+export interface IItem {
+  word: string;
+  color: string;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  width: number;
+  height: number;
+}
+
 export interface IGame {
+  env: IEnv;
   status: 'running' | 'stopped';
-  clock?: number;
-  items: Record<string, IItem>;
   itemSet: Set<string>;
+  items: Record<string, IItem>;
+  clock?: number;
   pointer?: {
     timeStamp: number;
     x: number;
@@ -41,18 +42,17 @@ export interface IGame {
     vx: number;
     vy: number;
   };
-  env: IEnv;
 }
 
 const INIT_GAME: IGame = {
-  status: 'stopped',
-  items: {},
-  itemSet: new Set<string>(),
   env: {
     container: { width: 0, height: 0 },
     params: { i: 10, a: 500, cor: 0.6, cof: 0.9 },
     itemStyle: { size: 48 },
   },
+  status: 'stopped',
+  itemSet: new Set<string>(),
+  items: {},
 };
 
 const game = create(INIT_GAME);
