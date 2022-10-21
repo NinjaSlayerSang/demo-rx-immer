@@ -54,9 +54,8 @@ const Screen: FunctionComponent = () => {
       style={{
         position: 'relative',
         width: '100%',
-        height: '70vh',
+        height: 'calc(100vh - 230px)',
         backgroundColor: 'lightgray',
-        margin: '14px 0',
         cursor: 'crosshair',
         overflow: 'hidden',
       }}
